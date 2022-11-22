@@ -2,8 +2,29 @@ const express = require("express");
 
 const routes = express.Router();
 
-routes.post('/:permissao/ocorrencias/:case', (req, res) => require('./app/useCases/5#Ocorrencias/'+req.params.permissao).cases(req, res))
+//public routes init
+routes.post('/admin/ocorrencias/list', (req, res) => require('./app/useCases/5#Ocorrencias/admin').cases({
+    body: req.body,
+    params: {...req.params, case: 'list'}
+}, res))
+routes.post('/admin/bases/list', (req, res) => require('./app/useCases/7#Bases/admin').cases({
+    body: req.body,
+    params: {...req.params, case: 'list'}
+}, res))
+routes.post('/admin/especies/list', (req, res) => require('./app/useCases/0#Especies/admin').cases({
+    body: req.body,
+    params: {...req.params, case: 'list'}
+}, res))
+routes.post('/admin/familiahospedeiros/list', (req, res) => require('./app/useCases/4#FamiliaHospedeiros/admin').cases({
+    body: req.body,
+    params: {...req.params, case: 'list'}
+}, res))
+routes.post('/admin/hospedeiros/list', (req, res) => require('./app/useCases/3#Hospedeiros/admin').cases({
+    body: req.body,
+    params: {...req.params, case: 'list'}
+}, res))
 
+//public routes end
 routes.post('/signup/:sponsor_id', (req, res) => require('./app/useCases/1#Funcionarios/cliente').cases(
     {
         body: req.body,
