@@ -8,7 +8,7 @@ module.exports = async (req, res) => {
                 data: new Date()
             }
         })
-        return res.json(payload)    
+        return res.json(payload)
     } catch (error) {
         return res.status(401).json({ message: error.message })
     }

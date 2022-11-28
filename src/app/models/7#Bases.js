@@ -56,8 +56,8 @@ const Schema = new mongoose.Schema({
         }
     },
     updated_at: {
-        type: Array,
-        default: []
+        type: Date,
+        default: new Date()
     }
 })
 

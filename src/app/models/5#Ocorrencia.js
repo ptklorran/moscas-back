@@ -9,7 +9,11 @@ const Schema = new mongoose.Schema({
         type: Object,
         default: {}
     },
-    hospedeiro: {
+    especie_hospedeiro: {
+        type: Object,
+        default: {}
+    },
+    familia_hospedeiro: {
         type: Object,
         default: {}
     },
@@ -19,8 +23,20 @@ const Schema = new mongoose.Schema({
         type: Array,
         default: []
     },
-    latitude: String,
-    longitude: String,
+    tipo_localizacao: {
+        type: String,
+        default: '.'
+    },
+    latitude: {
+        type: Object,
+        default: {
+        }
+    },
+    longitude: {
+        type: Object,
+        default: {
+        }
+    },
     estado: String,
     municipio: String,
     created_at: {

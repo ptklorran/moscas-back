@@ -5,8 +5,9 @@ module.exports = async (req, res) => {
     try {
 
         const payload = await Model.findByIdAndUpdate(req.body._id, req.body, { new: true })
+        const now = new Date()
         await Base.findByIdAndUpdate(req.body.base, {
-            updated_at: new Date()
+            updated_at: now
         })
         return res.json(payload)
 
