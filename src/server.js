@@ -14,7 +14,7 @@ class App {
         this.routes();
     }
 
-    database () {
+    database() {
         mongoose.connect('mongodb+srv://default_ubs:pp!!4753@cluster0-xm2va.gcp.mongodb.net/cosmos_solaris?retryWrites=true', {
             useCreateIndex: true,
             useNewUrlParser: true,
@@ -25,6 +25,7 @@ class App {
 
     middlewares() {
         // cron.schedule("* * * * *", () => require('./app/cron/check_plano_vencido.js')());
+        // cron.schedule("* * * * *", () => require('./dp_script/base_parasitoid')());
         this.express.use(express.json({ limit: '50mb' }));
         this.express.use(cors());
         this.express.use((req, res, next) => {
