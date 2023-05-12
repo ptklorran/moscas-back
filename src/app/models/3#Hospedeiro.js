@@ -5,6 +5,8 @@ const AutoIncrement = require('mongoose-sequence')(mongoose);
 const Schema = new mongoose.Schema({
     base: String,
     nome: String,
+    nome_popular: String,
+    cod_hosp: String, // somente lonchaeidae
     especie: {
         type: Object,
         default: {}

@@ -1,7 +1,7 @@
 const estados = require('./estados.json')
-const familia_hosp = require('./familia_hosp.json')
+const familia_hosp = require('./familia_hosp.json') // ok
+const mosca_frutas = require('./mosca_frutas.json') // ok
 const hospedeiros = require('./hospedeiros.json')
-const mosca_frutas = require('./mosca_frutas.json')
 const mosca_genero = require('./mosca_genero.json')
 const municipios = require('./municipios.json')
 const ocorrencias = require('./ocorrencias.json')
@@ -14,14 +14,92 @@ let ocorrencias_preenchidas = [];
 //   ocorrencias_preenchidas.push(payload)
 // })
 
-const EspecieDeMosca = require('../app/models/0#Especies')
+const FamiliaDeHospedeiro = require('../app/models/4#FamiliaHospedeiro') //ok
+const EspecieDeMosca = require('../app/models/0#Especies') //ok
 const EspecieDeHospedeiro = require('../app/models/2#EspeciesHospedeiro')
-const FamiliaDeHospedeiro = require('../app/models/4#FamiliaHospedeiro')
 const Ocurrencie = require('../app/models/5#Ocorrencia')
 let familias_de_hospedeiros = [];
 let especies_de_hospedeiros = [];
 let especies_de_moscas = [];
+
+
 const id_base = '6446d611c1a52024a4c7f02e' //lonchaeidae;
+
+module.exports = async () => {
+    // familia_hosp.map(async fh => {
+    //     await FamiliaDeHospedeiro.create({
+    //         nome: fh.familia_hosp,
+    //         base: id_base
+    //     })
+    // });
+    // mosca_frutas.map(async fh => {
+    //     await EspecieDeMosca.create({
+    //         cod_esp: fh.cod_esp,
+    //         nome: fh.especie,
+    //         genero: fh.genero,
+    //         base: id_base
+    //     })
+    // });
+    // hospedeiros.map(async fh => {
+    //     console.log('ads', fh)
+    //     await EspecieDeHospedeiro.create({
+    //         cod_hosp: fh.cod_hosp,
+    //         nome_popular: fh.nome_hosp,
+    //         nome: fh.esp_hosp,
+    //         genero: fh.esp_hosp.split(' ')[0],
+    //         base: id_base
+    //     })
+    // });
+    let ocorrencia_treated = []
+    ocorrencias.map(async oc => {
+        let payload = {};
+        payload.base = id_base,
+        payload.nome = "",
+        payload.especie = await EspecieDeMosca.findOne({ cod_esp: oc.cod_esp }),
+        payload.especie_hospedeiro = await EspecieDeHospedeiro.findOne({ cod_hosp: oc.cod_hosp }),
+
+        payload.tipo_localizacao = oc.coord_estimada === 1 ? 'Estimada' : 'Real';
+        payload.latitude = {
+            direcao: oc.latitude,
+            grau: oc.lat_graus,
+            minuto: oc.lat_min,
+            segundo: oc.lat_seg || 0
+        }
+        payload.longitude = {
+            direcao: oc.longitude,
+            grau: oc.long_graus,
+            minuto: oc.long_min,
+            segundo: oc.long_seg || 0
+        }
+
+        payload.estado = oc.estado
+
+        hospedeiros.map(async nf => {
+            if (nf.cod_hosp == payload.especie_hospedeiro.cod_hosp) {
+                payload.familia_hospedeiro = await FamiliaDeHospedeiro.findOne({ nome: nf.familia_hosp });
+                return payload;
+            }
+        });
+        ref_bibliograficas.map(rb => {
+            if (rb.cod_ref === oc.cod_ref) {
+                payload.referenciabibliografica = rb.referencia;
+                payload.citacao = rb.autor;
+                return payload;
+            }
+        })
+        municipios.map(rb => {
+            if (rb.cod_munic === oc.cod_munic) {
+                payload.municipio = rb.municipio;
+                return payload;
+            }
+        })
+        ocorrencia_treated.push(payload);
+    });
+        // console.log("sdasd", ocorrencia_treated);
+    setTimeout(() => {
+        console.log("sdasd", ocorrencia_treated);
+    }, 10000);
+}
 // module.exports = async () => {
 //   try {
 //     base_parasitoid.map(item => {
@@ -109,6 +187,6 @@ const id_base = '6446d611c1a52024a4c7f02e' //lonchaeidae;
 //   });
 // }
 
-module.exports = () => {
-  console.log('as', base_parasitoid.length)
-}
+// module.exports = () => {
+//   console.log('as', base_parasitoid.length)
+// }

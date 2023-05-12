@@ -9,6 +9,7 @@ const Schema = new mongoose.Schema({
         type: Object,
         default: {}
     },
+    cod_esp: Number, //somente lonchaeidae
     estruturas_morfologicas: String,
     fotografias: {
         type: Array,

@@ -6,6 +6,8 @@ const Schema = new mongoose.Schema({
     base: String,
     nome: String, //especie
     genero: String,
+    nome_popular: String,
+    cod_hosp: String, // somente lonchaeidae
     created_at: {
         type: Date,
         default: new Date()
