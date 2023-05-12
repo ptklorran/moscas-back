@@ -16,7 +16,7 @@ class App {
 
     database() {
         // mongoose.connect('mongodb+srv://default_ubs:pp!!4753@cluster0-xm2va.gcp.mongodb.net/cosmos_solaris?retryWrites=true', {
-        mongoose.connect('mongodb://admin:!@#$%@localhost:27017', {
+        mongoose.connect('mongodb+srv://default_ubs:pp!!4753@cluster0-xm2va.gcp.mongodb.net/cosmos_solaris?retryWrites=true', {
             useCreateIndex: true,
             useNewUrlParser: true,
             useUnifiedTopology: true,
