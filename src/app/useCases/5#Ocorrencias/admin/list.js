@@ -25,7 +25,7 @@ module.exports = async (req, res) => {
                 ...options,
                 lean: true,
                 page: parseInt(req.body.page),
-                limit: req.body.limitPerPage ? req.body.limitPerPage : 1000
+                limit: req.body.limitPerPage ? req.body.limitPerPage : 2000
             })
 
         return res.json(paginate)
