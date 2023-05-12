@@ -16,19 +16,23 @@ module.exports = async (req, res) => {
             const queryBase = { regex: { $regex: new RegExp(req.body.base), $options: 'i'}}
             queryBase ? query.base = queryBase.regex : false
             queryNome ? query.nome = queryNome.regex : false
-            queryId ? query.id_ocorrencia = queryId.regex : false
+            queryId ? query.id_ocorrencia = req.body.id_ocorrencia : false
         }
 
-        const paginate = await Model.paginate(
-            query,
-            {
-                ...options,
-                lean: true,
-                page: parseInt(req.body.page),
-                limit: req.body.limitPerPage ? req.body.limitPerPage : 2000
-            })
+        const paginate = await Model.find(query);
+        // await Model.paginate(
+        //     query,
+        //     {
+        //         ...options,
+        //         lean: true,
+        //         page: parseInt(req.body.page),
+        //         limit: req.body.limitPerPage ? req.body.limitPerPage : 2000
+        //     })
 
-        return res.json(paginate)
+
+        return res.json({
+            docs: paginate
+        })
     } catch (error) {
         return res.json({ message: error.message })
     }
